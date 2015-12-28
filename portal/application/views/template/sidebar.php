@@ -5,7 +5,7 @@
         <div class="widget-heading">
             <h3>ARTIKEL PILIHAN</h3>
         </div>
-        <div class="widget-content favorit">
+        <div class="widget-content">
             <?php
             $choices = Model\Portal\Article::editorChoice()->latest('date')->get();
 
@@ -13,13 +13,12 @@
                 <div class="box-articles-widget">
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
-                            <div class="box-articles-widget-img">
-                                <a href="<?php echo $article->link ?>"><img src="<?php echo $article->featured_image ?>"></a>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-xs-12">
-                            <div class="box-articles-widget-title">
-                                <h4><a href="<?php echo $article->link ?>"><?php echo $article->title ?></a></h4>
+                            <div class="favorit">
+                                <a href="<?php echo $article->link ?>">
+                                    <div class="box-border-1">
+                                        <h6><?php echo $article->title ?></h6>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
