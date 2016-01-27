@@ -127,26 +127,14 @@
                 </div>
             </div>
             <!-- end:content -->
-
-            <!-- Modal -->
-            <!-- Begin: add chapter -->
-            <?php $this->load->view('modal/add_chapter'); ?>
-            <!-- End: add Chapter -->
-
-            <!-- Begin: Add Content -->
-            <?php $this->load->view('modal/add_content'); ?>
-            <!-- End: Add Content -->
-
-            <!-- Begin: Add Question -->
-            <?php $this->load->view('modal/add_question'); ?>
-            <!-- End: Add Question -->
-
-            <!-- Begin: Add Exam -->
-            <?php $this->load->view('modal/add_exam'); ?>
-            <!-- End: Add Exam -->
         </div>
         <div class="card-block">
-            <button type="submit" id="btn-submit" class="btn btn-primary btn-sm">Save</button>
+            <template v-if="course.chapters.length > 0">
+                <button type="submit" id="btn-submit" class="btn btn-primary btn-sm">Save</button>
+            </template>
+            <template v-else>
+                <button type="button" id="btn-submit-disable" class="btn btn-danger btn-sm" disabled>Anda belum menambahkan chapter</button>
+            </template>
         </div>
     </div>
 
@@ -228,6 +216,7 @@
     <script src="<?php echo asset('plugins/jQuery.filer-1.0.5/js/jquery.filer.min.js') ?>"></script>
     <script src="<?php echo asset('plugins/jQuery.filer-1.0.5/js/custom.js') ?>"></script>
     <script src="<?php echo asset('plugins/jquery.steps-1.1.0/js/jquery.steps.js') ?>"></script>
+    <script src="<?php echo asset('plugins/jquery-validation-1.14.0/dist/jquery.validate.min.js') ?>"></script>
     <script>
     $(document).ready(function () {
         window.app_kelas_online.withCache = false;

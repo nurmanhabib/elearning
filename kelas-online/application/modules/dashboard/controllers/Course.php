@@ -34,6 +34,7 @@ class Course extends Admin
         $course                 = new Model\Kelas\Course;
         $course->name           = $input->get('name');
         $course->description    = $input->get('description', '', FALSE);
+        $course->passing_standards  = $input->get('passing_standards');
         $course->days           = $input->get('days', 30);
         $course->status         = 'draft';
 
@@ -243,6 +244,7 @@ class Course extends Admin
             $course                 = Model\Kelas\Course::withDrafts()->findOrFail($id);
             $course->name           = set_value('name');
             $course->description    = set_value('description', '', FALSE);
+            $course->passing_standards  = set_value('passing_standards');
             $course->days           = set_value('days', 30);
             $course->category_id    = set_value('category_id');
             $course->save();

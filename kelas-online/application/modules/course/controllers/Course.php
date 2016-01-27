@@ -69,11 +69,15 @@ class Course extends Admin
         $repository = $this->repository;
         $expired    = $repository->getMemberExpired();
 
+       
+        $examscore = $this->repository->examScore($course->id);// get exam score
+
+       
         if ($repository->memberAllowCourse($course)) {
             if ($this->repository->isMember()) {
                 $course_member_status   = $repository->courseMemberStatus($slug); //get status member course
-
-                $this->template->build('chapter', compact('course', 'repository', 'course_member_status', 'expired'));
+                
+                $this->template->build('chapter', compact('course', 'repository', 'course_member_status', 'expired','examscore'));
             } else {
                 redirect('course/show/' . $course->slug, 'refresh');
             }

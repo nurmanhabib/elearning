@@ -19,6 +19,7 @@ $(document).ready(function () {
         this.name = '';
         this.days = 30;
         this.description = '';
+        this.passing_standards = 0;
         this.category_id = 0;
         this.chapters = [];
         this.exam = new ObjQuiz();
@@ -71,6 +72,12 @@ $(document).ready(function () {
                 chapterAttachment: new ObjAttachment(),
                 exam: new ObjQuestion()
             },
+            errors: {
+                chapter: [],
+                chapterQuiz: [],
+                chapterAttachment: [],
+                exam: []
+            },
             remove: {
                 chapters: [],
                 chapterQuiz: [],
@@ -113,23 +120,27 @@ $(document).ready(function () {
             initAttachment: function (storage) {
                 this.attachments = storage;
             },
-            saveChapter: function () {
+            saveChapter: function (event) {
                 var index = this.input.chapter.chapterIndex;
 
-                if (typeof index === 'undefined') {
-                    var attachment = new ObjAttachment();
-                    var chapter = new ObjChapter();
-                    chapter.name = this.input.chapter.name;
-                    chapter.content = this.input.chapter.content;
+                if (this.validationForm('#form-chapter-modal')) {
+                    if (typeof index === 'undefined') {
+                        var attachment = new ObjAttachment();
+                        var chapter = new ObjChapter();
+                        chapter.name = this.input.chapter.name;
+                        chapter.content = this.input.chapter.content;
 
-                    this.course.chapters.push(chapter);                    
-                    this.attachments.push(attachment)
-                } else {
-                    this.course.chapters[index].name = this.input.chapter.name;
-                    this.course.chapters[index].content = this.input.chapter.content;
+                        this.course.chapters.push(chapter);                    
+                        this.attachments.push(attachment)
+                    } else {
+                        this.course.chapters[index].name = this.input.chapter.name;
+                        this.course.chapters[index].content = this.input.chapter.content;
+                    }
+
+                    $(event.target).closest('.modal').modal('hide');
+
+                    this.resetInput('chapter', new ObjChapter());
                 }
-
-                this.resetInput('chapter', new ObjChapter());
             },
             editChapter: function (chapterIndex) {
                 var chapter = this.course.chapters[chapterIndex];
@@ -150,38 +161,51 @@ $(document).ready(function () {
             addChapterQuiz: function (chapterIndex) {
                 this.input.chapterQuiz.chapterIndex = chapterIndex;
             },
-            saveChapterQuiz: function () {
+            saveChapterQuiz: function (event) {
                 var chapter_index = this.input.chapterQuiz.chapterIndex;
                 var index = this.input.chapterQuiz.questionIndex;
                 var chapter = this.course.chapters[chapter_index];
+                var error = false;
 
-                if (chapter.quiz === null) {
-                    chapter.quiz = new ObjQuiz();
+                tinyMCE.triggerSave();
+
+                if ($('#editor-question').val() == '') {
+                    alert('Anda belum memasukkan pertanyaan');
+
+                    error = true;
                 }
 
-                var quiz = chapter.quiz;
+                if (this.validationForm('#form-question-modal', {content: 'questiontinymce'}) && !error) {
+                    if (chapter.quiz === null) {
+                        chapter.quiz = new ObjQuiz();
+                    }
 
-                if (typeof index === 'undefined') {
-                    var question = new ObjQuestion();
-                } else {
-                    var question = quiz.questions[index];
+                    var quiz = chapter.quiz;
+
+                    if (typeof index === 'undefined') {
+                        var question = new ObjQuestion();
+                    } else {
+                        var question = quiz.questions[index];
+                    }
+
+                    question.question = this.input.chapterQuiz.question;
+                    question.option_a = this.input.chapterQuiz.option_a;
+                    question.option_b = this.input.chapterQuiz.option_b;
+                    question.option_c = this.input.chapterQuiz.option_c;
+                    question.option_d = this.input.chapterQuiz.option_d;
+                    question.correct = this.input.chapterQuiz.correct;
+
+                    if (typeof index === 'undefined') {
+                        quiz.questions.push(question);
+                    } else {
+                        quiz.questions[index] = question;
+                    }
+
+                    $(event.target).closest('.modal').modal('hide');
+
+                    this.resetInput('chapterQuiz', new ObjQuestion());
+                    tinymce.get(this.tinymce).setContent('');
                 }
-
-                question.question = this.input.chapterQuiz.question;
-                question.option_a = this.input.chapterQuiz.option_a;
-                question.option_b = this.input.chapterQuiz.option_b;
-                question.option_c = this.input.chapterQuiz.option_c;
-                question.option_d = this.input.chapterQuiz.option_d;
-                question.correct = this.input.chapterQuiz.correct;
-
-                if (typeof index === 'undefined') {
-                    quiz.questions.push(question);
-                } else {
-                    quiz.questions[index] = question;
-                }
-
-                this.resetInput('chapterQuiz', new ObjQuestion());
-                tinymce.get(this.tinymce).setContent('');
             },
             editChapterQuiz: function (questionIndex, chapterIndex) {
                 var chapter = this.course.chapters[chapterIndex];
@@ -261,37 +285,50 @@ $(document).ready(function () {
 
                 attachment.contents.splice(index, 1);
             },
-            saveExam: function () {
+            saveExam: function (event) {
                 var index = this.input.exam.examIndex;
+                var error = false;
 
-                if (typeof index === 'undefined') {
-                    var question = new ObjQuestion();
+                tinyMCE.triggerSave();
 
-                    question.question = this.input.exam.question;
-                    question.option_a = this.input.exam.option_a;
-                    question.option_b = this.input.exam.option_b;
-                    question.option_c = this.input.exam.option_c;
-                    question.option_d = this.input.exam.option_d;
-                    question.correct = this.input.exam.correct;
+                if ($('#editor-exam').val() == '') {
+                    alert('Anda belum memasukkan pertanyaan')
 
-                    if (this.course.exam === null) {
-                        this.course.exam = new ObjQuiz();
+                    error = true;
+                }
+                
+                if (this.validationForm('#form-exam-modal') && !error) {
+                    if (typeof index === 'undefined') {
+                        var question = new ObjQuestion();
+
+                        question.question = this.input.exam.question;
+                        question.option_a = this.input.exam.option_a;
+                        question.option_b = this.input.exam.option_b;
+                        question.option_c = this.input.exam.option_c;
+                        question.option_d = this.input.exam.option_d;
+                        question.correct = this.input.exam.correct;
+
+                        if (this.course.exam === null) {
+                            this.course.exam = new ObjQuiz();
+                        }
+
+                        this.course.exam.questions.push(question);
+                    } else {
+                        var question = this.course.exam.questions[index];
+
+                        question.question = this.input.exam.question;
+                        question.option_a = this.input.exam.option_a;
+                        question.option_b = this.input.exam.option_b;
+                        question.option_c = this.input.exam.option_c;
+                        question.option_d = this.input.exam.option_d;
+                        question.correct = this.input.exam.correct;
                     }
 
-                    this.course.exam.questions.push(question);
-                } else {
-                    var question = this.course.exam.questions[index];
+                    $(event.target).closest('.modal').modal('hide');
 
-                    question.question = this.input.exam.question;
-                    question.option_a = this.input.exam.option_a;
-                    question.option_b = this.input.exam.option_b;
-                    question.option_c = this.input.exam.option_c;
-                    question.option_d = this.input.exam.option_d;
-                    question.correct = this.input.exam.correct;
+                    this.resetInput('exam', new ObjQuestion());
+                    tinymce.get(this.tinymceExam).setContent('');
                 }
-
-                this.resetInput('exam', new ObjQuestion());
-                tinymce.get(this.tinymceExam).setContent('');
             },
             setExamQuestion: function (question) {
                 this.input.exam.question = question;
@@ -342,6 +379,42 @@ $(document).ready(function () {
                 })
 
                 return has === this.course.chapters.length
+            },
+            validationForm: function (form_id, options) {
+                var form = $(form_id);
+                var optiondefault = {
+                        errorPlacement: function errorPlacement(error, element) {
+                            var before = element.parent();
+
+                            if (before.attr('class') == 'input-group')
+                                before.before(error);
+                            else
+                                element.before(error);
+                        }
+                    }
+
+                if (typeof options == 'undefined')
+                    form.validate(optiondefault);
+                else
+                    form.validate($.extend({}, optiondefault, options));
+
+                return form.valid();
+            },
+            validationChapterQuiz: function () {
+                var errors = [];
+                var question = new ObjQuestion();
+
+                if (question.question == "")
+                    errors.push({
+                        question: 'Pertanyaan harus diisi'
+                    });
+
+                if (question.option_a == "")
+                    errors.push({
+                        option_a: 'Pertanyaan harus diisi'
+                    });
+
+                return errors;
             }
         },
         ready: function () {

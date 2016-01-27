@@ -38,6 +38,9 @@
                                 <a class="btn btn-sm btn-danger btn-margin-btm" title="Delete" v-on:click="removeExamQuestion($index)"><i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
+                        <tr v-show="course.exam.questions.length == 0">
+                            <td colspan="3">Anda belum menambahkan ujian</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -48,7 +51,12 @@
             <!-- End: Add Exam -->
         </div>
         <div class="card-block">
-            <button type="submit" id="btn-submit" class="btn btn-primary btn-sm">Save</button>
+            <template v-if="course.exam.questions.length > 0">
+                <button type="submit" id="btn-submit" class="btn btn-primary btn-sm">Save</button>
+            </template>
+            <template v-else>
+                <button type="button" id="btn-submit-disable" class="btn btn-danger btn-sm" disabled>Anda belum menambahkan ujian</button>
+            </template>
         </div>
     </div>
 
@@ -95,6 +103,7 @@
     <script src="<?php echo asset('plugins/jQuery.filer-1.0.5/js/jquery.filer.min.js') ?>"></script>
     <script src="<?php echo asset('plugins/jQuery.filer-1.0.5/js/custom.js') ?>"></script>
     <script src="<?php echo asset('plugins/jquery.steps-1.1.0/js/jquery.steps.js') ?>"></script>
+    <script src="<?php echo asset('plugins/jquery-validation-1.14.0/dist/jquery.validate.min.js') ?>"></script>
     <script>
     $(document).ready(function () {
         window.app_kelas_online.withCache = false;

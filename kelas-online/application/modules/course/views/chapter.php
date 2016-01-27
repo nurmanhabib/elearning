@@ -1,4 +1,3 @@
-
 <div class="content-left">
     <div class="content-title">
         <h1><?php echo $course->name ?></h1>
@@ -79,9 +78,17 @@
     <?php foreach ($course_member_status as $key => $value): ?>
 
         <?php if ($value->status == 'finished'): ?>
+            <?php if ($examscore >= $course->passing_standards ): ?>
+                <a href="<?php echo site_url('course/printedcertificate/'.$course->slug) ?>" class="btn btn-block btn-sertifikat btn-info">CETAK SERTIFIKAT</a>
+            <?php else: ?>
+                <div class="alert alert-warning">
+                    Maaf, Anda tidak lulus dalam ujian. Anda tidak bisa mencetak Sertifikat <br>
+                    <b>Standar Kelulusan : <?php echo $course->passing_standards ?><br>
+                    Skor Anda : <?php echo $examscore ?></b><br>
+
+                </div>
+            <?php endif ?>
             
-            <a href="<?php echo site_url('course/printedcertificate/'.$course->slug) ?>" class="btn btn-block btn-sertifikat btn-info">CETAK SERTIFIKAT</a>
-        
         <?php else: ?>
 
                 <div class="alert alert-warning">Anda belum menyelesaikan exam.</div>

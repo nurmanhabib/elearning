@@ -194,6 +194,12 @@
                                 </div>
                                 <div class="card-block">
                                     <div class="form-group row">
+                                        <label class="col-sm-2 form-control-label">Standar Kelulusan</label>
+                                        <div class="input-group col-sm-4">
+                                            <input type="text" class="form-control" placeholder="Waktu" v-model="course.passing_standards">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="waktu" class="col-sm-2 form-control-label">Waktu</label>
                                         <div class="input-group col-sm-4">
                                             <input type="text" class="form-control" placeholder="Waktu" v-model="course.exam.time">
@@ -219,6 +225,9 @@
                                                         <a class="btn btn-konsul btn-danger btn-margin-btm" title="Delete" v-on:click="removeExamQuestion($index)"><i class="fa fa-trash-o"></i></a>
                                                     </td>
                                                 </tr>
+                                                <tr v-show="course.exam.questions.length == 0" class="warning">
+                                                    <td colspan="3">Anda belum memasukkan ujian</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -237,6 +246,7 @@
             <input type="hidden" name="course[name]" value="{{ course.name }}">
             <input type="hidden" name="course[description]" value="{{ course.description }}">
             <input type="hidden" name="course[days]" value="{{ course.days }}">
+            <input type="hidden" name="course[passing_standards]" value="{{ course.passing_standards }}">
             <cropit-result name="featured"></cropit-result>
             <cropit-result name="thumbnail"></cropit-result>
             <input type="hidden" name="course[tags]" value="{{ course.tags }}">
