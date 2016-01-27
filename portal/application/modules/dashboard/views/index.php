@@ -32,7 +32,7 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <table class="table table-striped table-reponsive" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
