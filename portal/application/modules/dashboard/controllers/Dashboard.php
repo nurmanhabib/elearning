@@ -46,24 +46,19 @@ class Dashboard extends Admin {
 
     public function index()
     {
-
-
         $user       = auth()->getUser();
         $request    = Request::createFromGlobals();
-        $articles   = Model\Portal\Article::published()
+        $articles   = Model\Portal\Article::withPrivate()->published()
                         ->contributor($user->id)
                         ->latest('date')
                         ->get();
 
-        $drafts     = Model\Portal\Article::onlyDrafts()
+        $drafts     = Model\Portal\Article::withPrivate()->onlyDrafts()
                         ->contributor($user->id)
                         ->latest('date')
                         ->get();
-        $draftcount = Model\Portal\Article::onlyDrafts()
-                        ->contributor($user->id)
-                        ->latest('date')
-                        ->count();
-
+        
+        $draftcount = $drafts->count();
 
         /* Start Activity Konsultasi */
         $data['konsultasiCat']          = $this->Mod_konsultasi->getKonsultasiKategori();
@@ -80,8 +75,8 @@ class Dashboard extends Admin {
         $data['categories']             = $categories;
 
         $data['categories_checkbox']    = (new Model\Portal\Category)->generateCheckbox();
-        $data['artikel']                = pagination($articles, 4, 'dashboard');
-        $data['drafts']                 = pagination($drafts, 4, 'dashboard');
+        $data['artikel']                = pagination($articles, 4, 'dashboard/my-article');
+        $data['drafts']                 = $drafts;
         $data['draftcount']             = $draftcount;
         $data['links']                  = $this->Mod_link->read();
 
@@ -115,6 +110,22 @@ class Dashboard extends Admin {
         $this->template->set('sidebar');
         $this->template->set_layout('privatepage');              
         $this->template->build('index', $data);
+    }
+
+    public function my_article()
+    {
+        $user       = auth()->getUser();
+        $status     = $this->input->get('status') ?: 'publish';
+
+        $articles   = Model\Portal\Article::withPrivate()->withDrafts()
+                        ->status($status)
+                        ->contributor($user->id)
+                        ->latest('date')
+                        ->get();
+
+        $this->template->set('sidebar');
+        $this->template->set_layout('privatepage');
+        $this->template->build('index_draft', compact('articles'));
     }
 
     public function sendArticle()
@@ -350,6 +361,19 @@ class Dashboard extends Admin {
         );
         $this->Mod_forum->newCommentChecked($where, $data);
         redirect('forum/thread/view/'.$id);
+    }
+
+    public function _remap($method, $params = array())
+    {
+        switch ($method) {
+            case 'my-article':
+                return $this->my_article();
+                break;
+            
+            default:
+                return call_user_func_array(array($this, $method), $params);
+                break;
+        }
     }
 }
 

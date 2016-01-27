@@ -7,53 +7,11 @@
                         </div>
                     </section> 
                     <div class="container content-submit">
-                        <div class="alert alert-warning" role="alert">
-                            <strong><?php echo $draftcount ?> Artikel</strong> masih di review. <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#artikel-status-draft"> Lihat </button>
-                        </div>
-
-
-                        <!-- MODAL EXAM SCORES -->
-                        <div class="modal fade" id="artikel-status-draft" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Artikel Status Draft</h4>
-                              </div>
-                              <div class="modal-body">
-                                <?php if ($draftcount == 0): ?>
-                                    <?php echo "Data kosong." ?>
-                                <?php else: ?>
-                                    <table class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Judul</th>
-                                                <th>Status</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $no=1; foreach ($drafts as $key => $value): ?>
-                                            <tr>
-                                                <td><?php echo $no ?></td>
-                                                <td><?php echo $value->title ?></td>
-                                                <td><div class="label label-warning"><?php echo $value->status ?></div></td>
-                                                <td><a href="<?php echo site_url('dashboard/editArticle/'.$value->id) ?>" class="btn btn-success">Edit</a></td>
-                                            </tr>
-                                            <?php $no++; endforeach ?>
-                                                
-                                        </tbody>
-                                    </table>
-                                <?php endif ?>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                             </div>
+                        <?php if ($drafts->count()): ?>
+                            <div class="alert alert-warning" role="alert">
+                                <strong><?php echo $drafts->count() ?> artikel</strong> masih di review. <a href="<?php echo site_url('dashboard/my-article?status=draft') ?>" class="btn btn-warning btn-sm"> Lihat</a>
                             </div>
-                          </div>
-                        </div>
-                        <!-- END EXAM SCORES MODAL -->
+                        <?php endif ?>
 
                         <div class="widget">
                             <div class="widget-content">
@@ -80,26 +38,30 @@
                                                     <th>#</th>
                                                     <th>Judul</th>
                                                     <th>Status</th>
-                                                    <th>Waktu Terbit</th>
+                                                    <th>Waktu</th>
+                                                    <th>Link</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $no=1; foreach ($artikel as $key => $value): ?>
+                                                <?php foreach ($artikel as $article): ?>
                                                 <tr>
-                                                    <td><?php echo $no ?></td>
-                                                    <td><?php echo $value->title ?></td>
-                                                    <td><div class="label label-success"><?php echo $value->status ?></div></td>
-                                                    <td><?php echo date('d F Y h:i:s',strtotime($value->published)) ?></td>
-                                                    
+                                                    <td><?php echo $article->id ?></td>
+                                                    <td><?php echo $article->title ?></td>
+                                                    <td><div class="label label-success"><?php echo $article->getStatusLabel() ?></div></td>
+                                                    <td><?php echo $article->date->format('d F Y H:i') ?></td>
+                                                    <td><a href="<?php echo $article->link ?>" class="label label-info" target="_blank"><i class="fa fa-external-link"></i> View</a></td>
                                                 </tr>
-                                                <?php $no++; endforeach ?>
-                                                
+                                                <?php endforeach ?>
+                                                <?php if ($artikel->isEmpty()): ?>
+                                                    <tr class="warning">
+                                                        <td colspan="5">Belum ada artikel yang dipublikasikan</td>
+                                                    </tr>
+                                                <?php endif ?>
                                             </tbody>
                                         </table>
                                         <nav class="pull-right">
-                                        <?php echo $artikel->render() ?>
+                                            <a href="<?php echo site_url('dashboard/my-article') ?>" class="btn btn-primary">View all your post</a>
                                         </nav>
-                                        
                                     </div>
                                 </div>
                             </div>

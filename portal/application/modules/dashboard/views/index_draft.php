@@ -7,6 +7,7 @@
             </div>
         </section> 
         <div class="container content-submit">
+            <a class="btn btn-primary" href="<?php echo site_url('dashboard/sendArticle') ?>"><i class="fa fa-plus"></i> Submit Artikel</a>
             <div class="widget">
                 <div class="widget-heading">
                     <ul class="nav nav-tabs" role="tablist">
@@ -24,20 +25,20 @@
                                         <th>#</th>
                                         <th>Judul</th>
                                         <th>Status</th>
-                                        <th>Waktu Terbit</th>
+                                        <th>Waktu</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($artikel as $article): ?>
+                                    <?php foreach ($articles as $article): ?>
                                         <tr>
                                             <td><?php echo $article->id ?></td>
                                             <td><?php echo $article->title ?></td>
                                             <td><?php echo $article->getStatusLabel() ?></td>
                                             <td><?php echo $article->date->format('d F Y H:i') ?></td>
                                             <td>
-                                                <a href="#" class="btn btn-primary btn-konsul">Update</a>
-                                                <a href="#" class="btn btn-danger btn-konsul">Delete</a>
+                                                <a href="<?php echo site_url('dashboard/editArticle/'.$article->id) ?>" class="btn btn-primary btn-konsul">Update</a>
+                                                <a href="<?php echo site_url('dashboard/delete/'.$article->id) ?>" class="btn btn-danger btn-delete btn-konsul">Delete</a>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>

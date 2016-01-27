@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="parent" class="control-label">Tenaga Ahli</label>
+                    <label for="parent" class="control-label">Tenaga Ahli / Moderator</label>
                     <?php echo form_multiselect('tenagaahli[]', $users, '', array('class' => 'form-control select2')); ?>
                 </div>
             </div>
