@@ -96,7 +96,7 @@ class Course extends Admin
         $expired        = $repository->getMemberExpired();
         $course_member_status   = $repository->courseMemberStatus($slug); //get status member course
 
-        if ($repository->memberAllowChapter($chapter)) {
+        if (($repository->isMember('active') || $repository->isMember('finished')) && $repository->memberAllowChapter($chapter)) {
             $this->template->build('chapter_show', compact('course', 'repository', 'chapter', 'nextchapter', 'expired','course_member_status'));
         } else {
             redirect('course/show/'.$course->slug, 'refresh');

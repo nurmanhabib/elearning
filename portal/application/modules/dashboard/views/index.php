@@ -300,12 +300,8 @@
                                                 <h4><i class="fa fa-info"></i> Kelas Terbaru:</h4>
                                                 <ul>
 
-                                                    <?php if ($courses->count() == 0): ?>
+                                                    <?php if ($courses->count()): ?>
                                                         
-                                                        <li><a href="javascript:;" title="">Tidak ada kelas terbaru</a></li>   
-                                                    
-                                                    <?php else: ?>
-                                                    
                                                         <?php foreach ($courses as $key => $course): ?>
                                                         <li>
                                                             <?php $coursecode = str_replace('.', '-', $course->code); ?>
@@ -313,6 +309,11 @@
                                                             <a href="<?php echo site_url('kelas-online/course/join/'.$coursecode) ?>" class="btn btn-start btn-md btn-block">Mulai Kelas</a>
                                                         </li>
                                                         <?php endforeach ?>
+                                                        
+                                                    <?php else: ?>
+                                                        <li><a href="javascript:;" title="">Tidak ada kelas terbaru</a></li>   
+                                                    
+                                                        
                                                     
                                                     <?php endif ?>
                                                     
@@ -321,18 +322,19 @@
                                             <div class="kelas-content">
                                               <h4>Kelas yang anda Ikuti:</h4>
                                                 <ul>
-                                                    <?php if ($myclasscourse->count() == 0): ?>
+                                                    <?php if ($myclasscourse->count()): ?>
                                                         
-                                                        <li><a href="javascript:;" title="">Tidak ada kelas yang anda ikuti</a></li>   
-                                                    
-                                                    <?php else: ?>
-                                                        
-                                                        <?php foreach ($myclasscourse as $key => $mycourse): ?>
+                                                         <?php foreach ($myclasscourse as $key => $mycourse): ?>
                                                             <li>
                                                                 <?php $mycoursecode = str_replace('.', '-', $mycourse->course->code); ?>
                                                                 <a href="<?php echo site_url('kelas-online/course/join/'.$mycoursecode) ?>"><?php echo $mycourse->course->name ?></a>
                                                             </li>
                                                         <?php endforeach ?>
+                                                       
+                                                    <?php else: ?>
+                                                        
+                                                        <li><a href="javascript:;" title="">Tidak ada kelas yang anda ikuti</a></li>   
+                                                    
 
                                                     <?php endif ?>  
                                                 </ul>
@@ -340,7 +342,7 @@
                                             <div class="latest-comment">
                                                 <h4><i class="fa fa-wechat"></i> Kelas yang ada comment:</h4>
                                                 <ul>
-                                                    <?php if($coursecomments->count() != 0): ?>
+                                                    <?php if($coursecomments->count()): ?>
                                                         <?php foreach ($coursecomments as $comment): ?>
                                                         <li><a href="javascript:;"><?php echo $comment->course->name ?></a>
                                                             <div class="comment">

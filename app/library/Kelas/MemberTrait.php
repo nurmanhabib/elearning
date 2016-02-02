@@ -44,11 +44,15 @@ trait MemberTrait
         if ($user)
             $this->setUser($user);
 
-        if ($member = ExamMember::where('user_id', $this->user->id)->first())
-            $member->delete();
+        ExamMember::where('user_id', $this->user->id)->whereHas('exam', function ($query) {
+            $query->where('course_id', $this->model->id);
+        })->delete();
 
-        if ($member = QuizMember::where('user_id', $this->user->id)->first())
-            $member->delete();
+        QuizMember::where('user_id', $this->user->id)->whereHas('quiz', function ($quiz) {
+            $quiz->whereHas('chapter', function ($chapter) {
+                $chapter->where('course_id', $this->model->id);
+            });
+        })->delete();
 
         $this->model->members()->detach($user);
 
