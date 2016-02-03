@@ -156,6 +156,16 @@ class Media extends Model
         return $types;
     }
 
+    public function html5VideoFormat()
+    {
+        $types  = array(
+                'video/mp4',
+                'video/webm',
+                'video/ogg'
+            );
+        return $types;
+    }
+
     public function getTypeAttribute()
     {
         if (preg_match('/^image\//', $this->file_type)) {
@@ -345,9 +355,17 @@ class Media extends Model
         }
 
         elseif ($this->type == 'Video') {
-            return '<video id="my-video" width="'.$width.'" height="'.$height.'" class="video-js" controls preload="auto" data-setup="{}">
-                <source src="'.$fileurl.'" type="video/mp4">
-                </video>';
+            if(in_array($this->file_type, $this->html5VideoFormat())){
+                return '<video id="my-video" width="'.$width.'" height="'.$height.'" class="video-js vjs-big-play-centered" controls preload="auto" data-setup="{}">
+                            <source src="'.$fileurl.'" type="'.$this->file_type.'">
+                        </video>';
+            }else{
+                if($height > 200){
+                    return $this->bigUnsupportedPreview($width, $height);
+                }else{
+                    return $this->smallUnsupportedPreview($width, $height);
+                }
+            }
         }
 
         elseif ($this->type == 'Audio') {
@@ -360,6 +378,32 @@ class Media extends Model
         else{
             return '<iframe src="http://docs.google.com/gview?url='.$fileurl.'&embedded=true" style="width:'.$width.'px; height:'.$height.'px;" frameborder="0"></iframe>';
         }
+    }
+
+    public function bigUnsupportedPreview($width, $height)
+    {
+        return '<div class="jumbotron" style="width:'.$width.'px; height:'.$height.'px;">
+                        <h1 class="display-3">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-video-camera fa-stack-1x"></i>
+                                <i class="fa fa-ban fa-stack-2x text-danger"></i>
+                            </span>
+                        </h1>
+                        <p class="lead">Maaf, format video ini tidak support untuk dipreview.</p>
+                    </div>';
+    }
+
+    public function smallUnsupportedPreview($width, $height)
+    {
+        return '<div class="jumbotron" style="width:'.$width.'px; height:'.$height.'px; padding:0px; margin:0px;">
+                        <h1 class="display-3">
+                            <span class="fa-stack fa-lg" style="font-size:50%;">
+                                <i class="fa fa-video-camera fa-stack-1x"></i>
+                                <i class="fa fa-ban fa-stack-2x text-danger"></i>
+                            </span>
+                        </h1>
+                        <p class="lead">Maaf, format video ini tidak support untuk dipreview.</p>
+                    </div>';
     }
 
     public function scopePopular($query, $limit = 6)

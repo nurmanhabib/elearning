@@ -13,9 +13,15 @@
         </div>
         <div class="card-block">
             <div class="form-group row">
+                <label for="standar" class="col-sm-2 form-control-label">Standar Kelulusan</label>
+                <div class="input-group col-sm-4">
+                    <input type="text" class="form-control" id="standar" placeholder="Standar Kelulusan" v-model="course.passing_standards">
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="waktu" class="col-sm-2 form-control-label">Waktu</label>
                 <div class="input-group col-sm-4">
-                    <input type="text" class="form-control" id="waktu" placeholder="Waktu" v-model="course.exam.time">
+                    <input type="text" class="form-control"  id="waktu" placeholder="Waktu" v-model="course.exam.time">
                     <div class="input-group-addon">Menit</div>
                 </div>
             </div>
@@ -51,20 +57,17 @@
             <!-- End: Add Exam -->
         </div>
         <div class="card-block">
-            <template v-if="course.exam.questions.length > 0">
-                <button type="submit" id="btn-submit" class="btn btn-primary btn-sm">Save</button>
-            </template>
-            <template v-else>
-                <button type="button" id="btn-submit-disable" class="btn btn-danger btn-sm" disabled>Anda belum menambahkan ujian</button>
-            </template>
+            <button type="submit" id="btn-submit" class="btn btn-primary btn-sm btn-submit" v-show="course.exam.questions.length > 0">Save</button>
+            <button type="button" id="btn-submit-disable" class="btn btn-danger btn-sm" disabled v-show="course.exam.questions.length == 0">Anda belum menambahkan ujian</button>
         </div>
     </div>
 
     <?php echo form_open('dashboard/course/edit/'.$course->id.'/exam', ['id' => 'form-course-result']); ?>
     <div id="course-result">
         <input type="hidden" name="course[exam][id]" value="{{ course.exam.id || 0 }}">
-        <input type="hidden" name="course[exam][name]" value="{{ course.exam.name }}">
-        <input type="hidden" name="course[exam][time]" value="{{ course.exam.time }}">
+        <input required type="hidden" name="course[exam][name]" value="{{ course.exam.name }}">
+        <input required type="hidden" name="course[exam][time]" value="{{ course.exam.time }}">
+        <input required type="hidden" name="course[passing_standards]" value="{{ course.passing_standards }}">
         <div v-for="exam in course.exam.questions">
             <input type="hidden" name="course[exam][questions][{{ $index }}][id]" value="{{ exam.id || 0 }}">
             <input type="hidden" name="course[exam][questions][{{ $index }}][question]" value="{{ exam.question }}">
@@ -124,9 +127,24 @@
             }
         })
 
+        $('#waktu').on('change', function () {
+            if ($(this).val() < 1) {
+                alert('Waktu exam minimal adalah 1 menit')
+                $(this).val(1)
+            }
+        })
+
+        $('#form-course-result').validate();
+
         $('#btn-submit').on('click', function () {
-            $('#form-course-result').submit();
+            if (!window.app_kelas_online.checkExamHasTime()) {
+                alert('Minimal waktu exam adalah 1 menit');
+            } else {
+                $('#form-course-result').submit();
+            }
         })
     })
     </script>
+
+    
 <?php endcustom_script() ?>

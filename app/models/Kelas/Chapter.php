@@ -4,6 +4,7 @@ namespace Model\Kelas;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Model\User;
+use Carbon\Carbon;
 
 class Chapter extends Model
 {
@@ -74,7 +75,7 @@ class Chapter extends Model
                 $quiz       = $member->quiz;
                 $answers    = $member->answers;
 
-                return (bool) $member->submited;
+                return (bool) $member->submited || Carbon::now()->diffInSeconds($member->finished_at, false) < 0;
             } else {
                 return false;
             }

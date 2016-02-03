@@ -34,4 +34,16 @@ class QuizMember extends Model
 	{
 		return $this->belongsTo(User::class);
 	}
+
+	public function getScore()
+	{
+		$quiz		= $this->quiz;
+		$answers 	= $this->answers;
+		$correct	= $answers->sum('is_correct');
+
+		$point		= 100 / $quiz->questions->count();
+		$score		= $point * $correct;
+
+		return $score;
+	}
 }

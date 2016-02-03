@@ -87,7 +87,7 @@
                                         <h3><a href="<?php echo $artikel->link ?>"><?php echo $artikel->title ?></a></h3>
                                     </div>
                                     <div class="articles-box-content">
-                                        <p><?php echo $artikel->getExcerpt(120) ?></p>
+                                        <p><?php echo $artikel->description ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                                         <h3><a href="<?php echo $artikel->link ?>"><?php echo $artikel->title ?></a></h3>
                                     </div>
                                     <div class="articles-box-content">
-                                        <p><?php echo $artikel->getExcerpt(120) ?></p>
+                                        <p><?php echo $artikel->description ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +174,7 @@
                                         <h3><a href="<?php echo $artikel->link ?>"><?php echo $artikel->title ?></a></h3>
                                     </div>
                                     <div class="articles-box-content">
-                                        <p><?php echo $artikel->getExcerpt(120) ?></p>
+                                        <p><?php echo $artikel->description ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +216,7 @@
                                         <h3><a href="<?php echo $artikel->link ?>"><?php echo $artikel->title ?></a></h3>
                                     </div>
                                     <div class="articles-box-content">
-                                        <p><?php echo $artikel->getExcerpt(120) ?></p>
+                                        <p><?php echo $artikel->description ?></p>
                                     </div>
                                 </div>
                             </div>

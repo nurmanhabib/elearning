@@ -1252,6 +1252,9 @@ header {
 								p {
 									font-size: 14px;
 								}
+								em {
+									font-size: 12px;
+								}
 							}
 						}
 					}
@@ -4256,7 +4259,7 @@ a {
     a {
       &:hover {
         background-color: $green;
-        color: $white;
+        color: $white !important;
         border: 1px solid $green;
       }
     }
@@ -4270,6 +4273,7 @@ a {
   &:hover,
   &:focus {
     border: 1px solid $green;
+    color: $white;
   }
 }
 
@@ -4291,7 +4295,7 @@ a {
 .pagination>.active>span:focus,
 .pagination>.active>span:hover {
   background-color: $green !important;
-  color: $white;
+  color: $white !important;
   border: 1px solid $green;
   height: 35px;
 }
@@ -5941,14 +5945,14 @@ Create: Singgih Saputro */
 
 .btn-start {
 	background-color: $grey;
-	color: $aspalt-light;
+	color: $aspalt-light !important;
 	@include transition(0.3s);
 	@include border-radius(6px);
 	&:hover,
 	&:focus,
 	&:active {
 		background-color: $green;
-		color: $white;
+		color: $white !important;
 		@include transition(0.3s);
 	}
 }

@@ -27,7 +27,8 @@
             <li><i class="fa fa-comments-o"></i> <?php echo $article->comments->count() ?> Komentar</li>
         </ul>
     </div>
-    <div class="single-article-content">        
+    <div class="single-article-content">
+        <p><b>"<?php echo $article->description ?>"</b></p>        
         <?php echo $article->content ?>
     </div>
     <div class="single-article-author">

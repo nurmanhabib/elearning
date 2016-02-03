@@ -19,8 +19,20 @@
                         <?php endif ?>
                         Image
                     </a>
-                    <a href="<?php echo site_url('dashboard/course/edit/'.$course->id.'/chapter') ?>" class="list-group-item <?php echo $sidebar_active == 'chapter' ? 'active' : '' ?>">Chapter and Quiz</a>
-                    <a href="<?php echo site_url('dashboard/course/edit/'.$course->id.'/exam') ?>" class="list-group-item <?php echo $sidebar_active == 'exam' ? 'active' : '' ?>">Exam</a>
+                    <a href="<?php echo site_url('dashboard/course/edit/'.$course->id.'/chapter') ?>" class="list-group-item <?php echo $sidebar_active == 'chapter' ? 'active' : '' ?>">Chapter and Quiz
+                        <?php if ($count = $repository->countChapters()): ?>
+                            <span class="label label-default label-pill pull-xs-right"><?php echo $count ?></span>
+                        <?php else: ?>
+                            <span class="text-danger pull-xs-right"><i class="fa fa-fw fa-warning"></i></span>
+                        <?php endif ?>
+                    </a>
+                    <a href="<?php echo site_url('dashboard/course/edit/'.$course->id.'/exam') ?>" class="list-group-item <?php echo $sidebar_active == 'exam' ? 'active' : '' ?>">Exam
+                        <?php if ($count = $repository->countExams()): ?>
+                            <span class="label label-default label-pill pull-xs-right"><?php echo $count ?></span>
+                        <?php else: ?>
+                            <span class="text-danger pull-xs-right"><i class="fa fa-fw fa-warning"></i></span>
+                        <?php endif ?>
+                    </a>
                 </div>
             </div>
         </div>

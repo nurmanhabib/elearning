@@ -33,8 +33,8 @@
 
                             <?php if ($user->pivot->status == 'finished'): ?>
                             <!-- Button Trigger Modal -->
-                            <button type="button" class="btn btn-primary btn-small btn-view-quiz" course-id="<?php echo $course->id ?>" user-name="<?php echo $user->full_name ?>" user-id="<?php echo $user->id ?>" data-toggle="modal" data-target="#myModal">Lihat Score Quiz</button>
-                            <button type="button" class="btn btn-primary btn-small btn-view-exam" course-id="<?php echo $course->id ?>" user-name="<?php echo $user->full_name ?>" data-toggle="modal" data-target="#myModal">Lihat Score Exam</button>
+                            <button type="button" class="btn btn-primary btn-small btn-view-quiz" user-id="<?php echo $user->id ?>" user-name="<?php echo $user->full_name ?>" data-toggle="modal" data-target="#myModal">Lihat Score Quiz</button>
+                            <button type="button" class="btn btn-primary btn-small btn-view-exam" course-id="<?php echo $course->id ?>" user-name="<?php echo $user->full_name ?>" user-id="<?php echo $user->id ?>" data-toggle="modal" data-target="#myModal">Lihat Score Exam</button>
                             <!-- End Button Trigger Modal -->
                             <?php endif ?>
 
@@ -67,6 +67,28 @@
       </div>
       <div class="modal-body">
             <div class="response-data"></div>
+
+            <div class="chapter-list">
+                <?php foreach ($chapters as $key => $chapter): ?>
+                  
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading<?php echo $chapter->id ?>">
+                      <h4 class="panel-title">
+                        <a role="button" class="chapter" user-id="<?php echo $user->id ?>" chapter-id="<?php echo $chapter->id ?>" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $chapter->id ?>" aria-expanded="true" aria-controls="collapseOne">
+                          CHAPTER-<?php echo $chapter->order ?>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapse<?php echo $chapter->id ?>" class="panel-collapse collapse collapse-chapter" role="tabpanel" aria-labelledby="heading<?php echo $chapter->id ?>">
+                      <div class="panel-body">
+                          <div class="response-quiz-score"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <?php endforeach ?>
+            </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -89,37 +111,58 @@
                 
             },
             setData:function(){
+
+                $('#myModal').on('hidden.bs.modal', function (e) {
+                  $('.collapse-chapter').collapse('hide');
+                })
                 
                
                 $('.btn-view-quiz').click(function(){
-                   
-                    var courseid = $(this).attr('course-id');
-                    var username = $(this).attr("user-name");
+                    $('.response-data').hide();
+                    $('.chapter-list').show();
 
+                    var username = $(this).attr("user-name");
+                    var userid = $(this).attr('user-id');
+
+                    $('.chapter').attr("user-id", userid);
                     
                     $('.title-name-user').html(" Quiz " + username);
+                   
+                });
 
+                $('.chapter').click(function(){
+
+
+                    $('.response-data').hide();
+                    
+                    var chapterid = $(this).attr('chapter-id');
+                    var userid    = $(this).attr('user-id');
+                   
                     $.ajax({
                         type: "GET",
-                        url: url+'/quizscores/'+courseid,
+                        url: url+'/quizscores/'+chapterid+'/'+userid,
                         success: function(response){
                             
-                            $('.response-data').html(response);
+                            $('.response-quiz-score').html(response);
 
                         }
                     });
                 });
 
+                
                 $('.btn-view-exam').click(function(){
-                   
+                    $('.response-data').show();
+                    $('.chapter-list').hide();
+
                     var courseid = $(this).attr('course-id');
                     var username = $(this).attr("user-name");
+                    var userid   = $(this).attr('user-id');
 
                     $('.title-name-user').html(" Exam " + username);
 
                     $.ajax({
                         type: "GET",
-                        url: url+'/examscores/'+courseid,
+                        url: url+'/examscores/'+courseid+'/'+userid,
                         success: function(response){
                             
                             $('.response-data').html(response);

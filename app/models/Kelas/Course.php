@@ -167,6 +167,18 @@ class Course extends Model
         return $this->hasFeatured() ? asset('kelas-content/'.$this->id.'/'.$this->featured) : asset('images/kelas_online/thumbnails-lg.jpg');
     }
 
+    public function deleteFeatured()
+    {
+        if ($this->hasFeatured()) {
+            $path = PATH_KELASONLINE_CONTENT . '/' . $this->id . '/' . $this->featured;
+
+            if (file_exists($path))
+                unlink($path);
+        }
+
+        $this->update(['featured' => '']);
+    }
+
     public function hasThumbnail()
     {
         return (bool) $this->attributes['thumbnail'];
@@ -175,6 +187,18 @@ class Course extends Model
     public function getThumbnailImageAttribute()
     {
         return $this->hasThumbnail() ? asset('kelas-content/'.$this->id.'/'.$this->thumbnail) : asset('images/kelas_online/thumbnails-md.jpg');
+    }
+
+    public function deleteThumbnail()
+    {
+        if ($this->hasThumbnail()) {
+            $path = PATH_KELASONLINE_CONTENT . '/' . $this->id . '/' . $this->thumbnail;
+
+            if (file_exists($path))
+                unlink($path);
+        }
+
+        $this->update(['thumbnail' => '']);
     }
 
     public function getStatusLabelAttribute()

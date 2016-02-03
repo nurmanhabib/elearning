@@ -13,4 +13,9 @@ class QuizAnswer extends Model
 	{
 		return $this->belongsTo(QuizMember::class, 'member_quiz_id');
 	}
+
+	public function question()
+	{
+		return $this->belongsTo(QuizQuestion::class);
+	}
 }

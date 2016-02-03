@@ -10,7 +10,13 @@
                 </div>
 
                 <div class="form-group">
-                    <?php echo form_textarea('description', set_value('description', '', FALSE), array('class' => 'form-control description-text','rows' => '4' ,'placeholder' => 'Description (Maksimal 250 karakter)')); ?>
+                    <?php echo form_textarea(array(
+                        'value'         => set_value('description', $artikel->description),
+                        'name'          => 'description',
+                        'class'         => 'form-control description-text',
+                        'rows'          => 2,
+                        'placeholder'   => 'Text intro (Maksimal 100 karakter)'
+                    )); ?>
                 </div>
 
                 <div class="form-group">
@@ -114,7 +120,7 @@
 
     <script type="text/javascript">
         $('.description-text').on('keyup', function() {
-            limitText(this, 250)
+            limitText(this, 100)
         });
 
         function limitText(field, maxChar){

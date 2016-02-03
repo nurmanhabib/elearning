@@ -72,7 +72,7 @@
                                     <p><i class="fa fa-calendar"></i> <em><?php echo $comment->created_at->format('d F Y') ?></em></p>
                                 </div>
                                 <div class="list-content-forum">
-                                    <h4 class="media-heading"><?php echo $comment->nama ?> <a href="#comment-reply" class="pull-right btn btn-sm btn-reply" v-on:click="reply('<?php echo $comment->id ?>', '<?php echo $comment->name ?>')">Reply</a></h4>
+                                    <h4 class="media-heading"><?php echo $comment->nama ?> <a href="#comment-reply" class="pull-right btn btn-konsul btn-primary" v-on:click="reply('<?php echo $comment->id ?>', '<?php echo $comment->name ?>')">Reply</a></h4>
                                     <p><?php echo $comment->content ?></p>
 
                                     <?php foreach ($comment->replies as $reply): ?>
@@ -82,7 +82,10 @@
                                         </a>
                                         <div class="media-body">
                                             <div class="media-body-bg">
-                                                <h4 class="media-heading"><?php echo $reply->name ?></h4>
+                                                <div class="meta">
+                                                    <p><strong><?php echo $reply->name ?></strong></p>
+                                                    <p><i class="fa fa-calendar"></i> <em><?php echo $reply->created_at->format('d F Y') ?></em></p>
+                                                </div>
                                                 <p><?php echo $reply->content ?></p>
                                             </div>
                                         </div>

@@ -68,4 +68,14 @@ trait CountingTrait
 
 		return $total;
 	}
+
+	public function countChapters()
+	{
+		return $this->model->chapters->count();
+	}
+
+	public function countExams()
+	{
+		return $this->model->exam->questions->count();
+	}
 }

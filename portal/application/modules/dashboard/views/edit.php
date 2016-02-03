@@ -15,7 +15,7 @@
             <fieldset class="form-group">
                 <label>Deskripsi</label>
                 <textarea class="form-control description-text" name="description" rows="4"><?php echo $artikel->description ?></textarea>
-                <small class="text-muted">Maksimal 250 karakter</small>
+                <small class="text-muted">Maksimal 100 karakter</small>
             </fieldset>
             <fieldset class="form-group">
                 <textarea name="content" class="editor-simple"><?php echo $artikel->content ?></textarea>
@@ -69,7 +69,7 @@
 
     <script type="text/javascript">
     $('.description-text').on('keyup', function() {
-        limitText(this, 250)
+        limitText(this, 100)
     });
 
     function limitText(field, maxChar){

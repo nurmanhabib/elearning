@@ -196,7 +196,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 form-control-label">Standar Kelulusan</label>
                                         <div class="input-group col-sm-4">
-                                            <input type="text" class="form-control" placeholder="Waktu" v-model="course.passing_standards">
+                                            <input type="text" class="form-control" placeholder="Standar Kelulusan" v-model="course.passing_standards">
                                         </div>
                                     </div>
                                     <div class="form-group row">

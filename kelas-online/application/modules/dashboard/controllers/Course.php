@@ -212,6 +212,7 @@ class Course extends Admin
             'course'            => $this->kelas->getCourse($id),
             'repository'        => new CourseRepository($id),
             'sidebar_active'    => 'basic',
+            'chapters'          => Model\Kelas\Chapter::where('course_id', $id)->get()
         ];
 
         $this->template->set($data);
@@ -284,7 +285,7 @@ class Course extends Admin
             $kelas_content  = PATH_KELASONLINE_CONTENT.'/'.$course->id;
             
             if ($action == 'remove') {
-                // remove
+                $course->deleteFeatured();
             } elseif ($action == 'upload') {
                 if (!empty($featured)) {
                     $image = $imageManager->make($featured);
@@ -314,7 +315,7 @@ class Course extends Admin
             $kelas_content  = PATH_KELASONLINE_CONTENT.'/'.$course->id;
             
             if ($action == 'remove') {
-                // remove
+                $course->deleteThumbnail();
             } elseif ($action == 'upload') {
                 if (!empty($thumbnail)) {
                     $image = $imageManager->make($thumbnail);
@@ -483,8 +484,11 @@ class Course extends Admin
             // 1. Prepare from input
             $input  = collect($this->input->post('course'));
             $course = Model\Kelas\Course::withDrafts()->findOrFail($id);
-            $course = Model\Kelas\Course::withDrafts()->findOrFail($id);
-
+            
+            // update standar kelulusan
+            $course->passing_standards = $input->get('passing_standards');
+            $course->save();
+            
             $this->repository->set($course);
 
             // 2. Remove data
@@ -697,156 +701,27 @@ class Course extends Admin
         $this->template->build('scores', compact('coursemember'));
     }
 
-    public function examscores($courseid)
+    public function examscores($courseid, $userid)
     {
 
+        $course     = $this->repository->courseById($courseid);
+        $exam       = $this->repository->examLearnerByCourse($courseid);// get exam member
+        $answers    = $this->repository->learnerExamAnswer($courseid, $userid);
+        $member     = $this->repository->learnerExamMember($courseid);
 
-        $exam = $this->repository->examByCourse($courseid);// get exam member
-
-        
-        $correct    = 0;
-        $uncorrect  = 0;
-        $scores     = 0;
-
-        echo '<table class="table">';
-
-        // Start Exam Foreach 
-        foreach ($exam as $key => $value) {
-           
-
-            $quistion = $this->repository->questionList($value->id); //get questioin
-                // Start Question Foreach 
-                $no=1;
-                foreach ($quistion as $key => $vq) {
-
-                    
-                    
-                    $learneranswer = $this->repository->learnerAnswer($value->members[0]->id, $vq->id);
-                    // Start Learner Answer Foreach 
-                    foreach ($learneranswer as $key => $vAns) {
-
-                        if ($vAns->is_correct == '1') {
-                            $correct   = $correct + 1;
-                            $scores    = $scores + 10;
-                            $hasil     = "<span style='color:green'>Benar</span>";
-                            $jawabanlearner = "<span style='color:green'>Jawaban Learner: ".$vAns->answer."</span>";
-                        } else {
-                            $uncorrect = $uncorrect + 1;
-                            $scores    = $scores;
-                            $hasil     = "<span style='color:red'>Salah</span>";
-                            $jawabanlearner = "<span style='color:red'>Jawaban Learner: ".$vAns->answer."</span>";
-                        }
-                        
-                        echo $no.". ".strip_tags($vq->question)."  <br>&nbsp;&nbsp;&nbsp;<b>(<span style='color:green'>Kunci jawaban: ".$vq->correct."</span>)</b> - <b>(".$jawabanlearner.") - ".$hasil."</b><br><br>";                
-                        
-                        
-                    }
-                    // End Learner Answer Foreach
-
-
-
-                    
-                $no++;
-                }
-                // End Question Foreach
-
-
-           
-
-
-                echo "<br>";
-                echo "<b>Total Benar : </b>".$correct."<br>";
-                echo "<b>Total Salah : </b>".$uncorrect."<br>";
-                echo "<b>Scores : </b>".$scores."<br>";
-
-                $correct    = 0;
-                $uncorrect  = 0;
-                $scores     = 0;
-
-
-            
-        }
-        // End Exam Foreach 
-
-        echo '</table>';
-
-        
-        
-        exit();
+        $this->load->view('course/member_exam_answer', compact('course','exam', 'answers', 'member'));       
+         
     }
 
-    public function quizscores($courseid)
+    public function quizscores($chapterid, $userid)
     {
-        $chapter = $this->repository->chapterByCourseId($courseid);
+        $chapter    = $this->repository->chapterById($chapterid);
+        $quiz       = $this->repository->quizLearnerByChapterId($chapterid);
+        $answers    = $this->repository->learnerQuizAnswer($chapterid, $userid);
+        $member     = $this->repository->learnerQuizMember($chapterid);
 
-        $correct    = 0;
-        $uncorrect  = 0;
-        $scores     = 0;
-        
-        echo '<table clas="table">';
-            
-     
-        foreach ($chapter as $key => $value) {
-
-         
-            echo $value->name."<br>";
-            
-            $quiz = $this->repository->quizByChapterId($value->id);             
-            foreach ($quiz as $key => $vquiz) {
-                
-                
-                $question = $this->repository->quizQuestionList($vquiz->id);
-                $no = 1;
-                foreach ($question as $key => $vques) {
-                   
-
-                    $learneranswer = $this->repository->learnerQuizAnswer($vquiz->members[0]->id, $vques->id);
-                    foreach ($learneranswer as $key => $vAns) {
-                        
-                        if ($vAns->is_correct == '1') {
-                            $correct   = $correct + 1;
-                            $scores    = $scores + 10;
-                            $hasil     = "<span style='color:green'>Benar</span>";
-                            $jawabanlearner = "<span style='color:green'>Jawaban Learner: ".$vAns->answer."</span>";
-                        } else {
-                            $uncorrect = $uncorrect + 1;
-                            $scores    = $scores;
-                            $hasil     = "<span style='color:red'>Salah</span>";
-                            $jawabanlearner = "<span style='color:red'>Jawaban Learner: ".$vAns->answer."</span>";
-                        }
-                        
-                        echo $no.". ".strip_tags($vques->question)."  <br>&nbsp;&nbsp;&nbsp;<b>(<span style='color:green'>Kunci jawaban: ".$vques->correct."</span>)</b> - <b>(".$jawabanlearner.") - ".$hasil."</b><br><br>";                
-                        
-                    }
-
-
-                $no++;
-                }
-
-
-                echo "<br>";
-                echo "<b>Total Benar : </b>".$correct."<br>";
-                echo "<b>Total Salah : </b>".$uncorrect."<br>";
-                echo "<b>Scores : </b>".$scores."<br>";
-
-                $correct    = 0;
-                $uncorrect  = 0;
-                $scores     = 0;
-                    
-                
-                
-                
-            }
-
-         
-
-        }
-
-        echo "</table>";
-
-        exit();
+        $this->load->view('course/member_quiz_answer', compact('chapter', 'quiz', 'answers', 'member'));       
     }
-
 
 }
 

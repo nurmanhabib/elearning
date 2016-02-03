@@ -119,6 +119,18 @@ class Article extends Model
             return false;
     }
 
+    public function getTypeLabel()
+    {
+        if ($this->type == 'public')
+            $type = 'info';
+        else
+            $type = 'primary';
+
+        $html = '<div class="label label-'.$type.'">'.ucwords($this->type).'</div>';
+
+        return $html;
+    }
+
     public function getStatusLabel()
     {
         $status = ucwords($this->status);
@@ -216,21 +228,6 @@ class Article extends Model
         return $query->latest('date')->whereHas('categories', function ($query) use ($category_id) {
             return $query->where('id', $category_id);
         });
-    }
-
-    public function scopeOnlyAllowEditor($query, $user_id = 0)
-    {
-        $user = $user_id ? Model\User::find($user_id) : sentinel()->getUser();
-
-        if ($this->editor_id != 0)
-            $query->where('editor_id', $user->id);
-
-        if ($this->categories->count())
-            return $query->whereHas('categories', function ($query) use ($user) {
-                return $query->whereIn($query->getModel()->getTable().'.id', $user->editorcategory->pluck('id')->toArray());
-            });
-        else
-            return $query;
     }
 
     public function scopeCategoryId($query, $category_id)

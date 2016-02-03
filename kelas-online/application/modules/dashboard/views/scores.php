@@ -1,12 +1,7 @@
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <section class="content-articles">
-                <div class="content-articles-heading">
-                    <h3>Dashboard Kelas Online</h3>
-                </div>
-            </section>
-        
+          
         <div class="container content-dashboard-kelas-online">
             
             <div class="row">
@@ -16,8 +11,9 @@
                         <h3>Daftar Member Course</h3>
                     </div>
                     <div class="card-block">
-                        
-                        
+
+                           
+                        <br>
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
@@ -32,18 +28,30 @@
                                     <tr>
                                         <td class="tdID" user-id="<?php echo $value->user->id ?>"><?php echo $no ?></td>
                                         <td class="name-user"><?php echo $value->user->first_name." ".$value->user->last_name ?></td>
-                                    	<td>
-                                    		<!-- Button trigger modal -->
-											<button type="button" class="btn btn-primary btn-lg btn-view" data-toggle="modal" data-target="#myModal">
-											  Lihat Skor Exam
-											</button>
-                                    	</td>
+                                        <td>
+
+                                            <!-- Button trigger modal quiz-->
+                                            <button type="button" class="btn btn-info btn-lg btn-view-quiz" data-toggle="modal" data-target="#myModal">
+                                                Lihat Skor Quiz
+                                            </button>
+                                            <!-- End button trigger modal exam -->
+
+
+                                            <!-- Button trigger modal exam-->
+                                            <button type="button" class="btn btn-primary btn-lg btn-view" data-toggle="modal" data-target="#myModal">
+                                                Lihat Skor Exam
+                                            </button>
+                                            <!-- End button trigger modal exam -->
+
+
+                                        </td>
                                     </tr>                                    
                                     <?php $no++; endforeach ?>
                                 </tbody>
                             </table>
                         </div>
-                       
+                                            
+                            
                     </div>
                 </div>
             </div>
@@ -75,7 +83,8 @@
 <script type="text/javascript">
     var scores=function(){
 
-         var url = "<?php echo site_url('dashboard/course/getexamscores') ?>";
+         var url     = "<?php echo site_url('dashboard/course/getexamscores') ?>";
+         var urlQuiz = "<?php echo site_url('dashboard/course/getquizscores') ?>";
         
         return{
             init:function(){
@@ -85,12 +94,30 @@
             setData:function(){
                 
                
-                $('.btn-view').click(function(){
+                $('.btn-view-quiz').click(function(){
                    
                     var userid = $(this).closest("tr").find(".tdID").attr('user-id');
                     var username = $(this).closest("tr").find(".name-user").text();
 
                    	$('.title-name-user').html(username);
+
+                    $.ajax({
+                        type: "GET",
+                        url: urlQuiz+'/'+userid,
+                        success: function(response){
+                            
+                            $('.response-data').html(response);
+
+                        }
+                    });
+                });
+
+                $('.btn-view').click(function(){
+                   
+                    var userid = $(this).closest("tr").find(".tdID").attr('user-id');
+                    var username = $(this).closest("tr").find(".name-user").text();
+
+                    $('.title-name-user').html(username);
 
                     $.ajax({
                         type: "GET",
@@ -104,8 +131,7 @@
                 });
                
             },
-            
-            
+
         } 
         }();
         scores.init();

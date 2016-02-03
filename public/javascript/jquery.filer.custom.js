@@ -202,8 +202,9 @@ $(document).ready(function() {
         extensions: ['jpg', 'jpeg', 'png', 
                     'gif', 'pdf', 'rar', 'zip', 
                     'xlsx', 'docx', 'doc', 'xls', 
-                    'ppt', 'pptx', '3gp', 'mp4', 'mpeg', 
-                    'mkv', 'flv', 'avi', 'wmv',  'mp3', 'txt'],
+                    'ppt', 'pptx', '3gp', 'mp4', 
+                    'mpeg', 'mpg', 'webm', 'ogg',
+                    'mkv', 'flv', 'mp3', 'txt'],
         addMore: true,
         showThumbs: true,
         templates: {
@@ -263,6 +264,19 @@ $(document).ready(function() {
                 item: '.jFiler-item',
                 progressBar: '.bar',
                 remove: '.jFiler-item-trash-action'
+            }
+        },
+        captions: {
+            button: "Choose Files",
+            feedback: "Choose files To Upload",
+            feedback2: "files were chosen",
+            drop: "Drop file here to Upload",
+            removeConfirmation: "Are you sure you want to remove this file?",
+            errors: {
+                filesLimit: "Only {{fi-limit}} files are allowed to be uploaded.",
+                filesType: "Only supported format are allowed to be uploaded.",
+                filesSize: "{{fi-name}} is too large! Please upload file up to {{fi-maxSize}} MB.",
+                filesSizeAll: "Files you've choosed are too large! Please upload files up to {{fi-maxSize}} MB."
             }
         }
     });
@@ -333,6 +347,7 @@ $(document).ready(function() {
     $('#filer_konsultasi').filer({
         limit : 1,
         maxSize: 10,
+        extensions: ['jpg', 'gif', 'jpeg', 'png', 'pdf', 'zip', 'doc', 'xls', 'xlsx', 'docx', 'txt'],
         showThumbs: true,
         templates: {
             box: '<ul class="jFiler-items-list jFiler-items-grid"></ul>',
@@ -390,11 +405,25 @@ $(document).ready(function() {
                 remove: '.jFiler-item-trash-action'
             }
         },
+        captions: {
+            button: "Choose Files",
+            feedback: "Choose files To Upload",
+            feedback2: "files were chosen",
+            drop: "Drop file here to Upload",
+            removeConfirmation: "Are you sure you want to remove this file?",
+            errors: {
+                filesLimit: "Only {{fi-limit}} files are allowed to be uploaded.",
+                filesType: "Only supported format are allowed to be uploaded.",
+                filesSize: "{{fi-name}} is too large! Please upload file up to {{fi-maxSize}} MB.",
+                filesSizeAll: "Files you've choosed are too large! Please upload files up to {{fi-maxSize}} MB."
+            }
+        }
     });
 
     $('#filer_konsultasi_reply').filer({
         limit : 1,
         maxSize: 10,
+        extensions: ['jpg', 'gif', 'jpeg', 'png', 'pdf', 'zip', 'doc', 'xls', 'xlsx', 'docx', 'txt'],
         showThumbs: true,
         templates: {
             box: '<ul class="jFiler-items-list jFiler-items-grid"></ul>',
@@ -452,6 +481,19 @@ $(document).ready(function() {
                 remove: '.jFiler-item-trash-action'
             }
         },
+        captions: {
+            button: "Choose Files",
+            feedback: "Choose files To Upload",
+            feedback2: "files were chosen",
+            drop: "Drop file here to Upload",
+            removeConfirmation: "Are you sure you want to remove this file?",
+            errors: {
+                filesLimit: "Only {{fi-limit}} files are allowed to be uploaded.",
+                filesType: "Only supported format are allowed to be uploaded.",
+                filesSize: "{{fi-name}} is too large! Please upload file up to {{fi-maxSize}} MB.",
+                filesSizeAll: "Files you've choosed are too large! Please upload files up to {{fi-maxSize}} MB."
+            }
+        }
     });
 
     $('#filer_input_img').filer({

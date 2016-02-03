@@ -32,33 +32,35 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        <table class="table table-striped table-reponsive" cellspacing="0" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Judul</th>
-                                                    <th>Status</th>
-                                                    <th>Waktu</th>
-                                                    <th>Link</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($artikel as $article): ?>
-                                                <tr>
-                                                    <td><?php echo $article->id ?></td>
-                                                    <td><?php echo $article->title ?></td>
-                                                    <td><div class="label label-success"><?php echo $article->getStatusLabel() ?></div></td>
-                                                    <td><?php echo $article->date->format('d F Y H:i') ?></td>
-                                                    <td><a href="<?php echo $article->link ?>" class="label label-info" target="_blank"><i class="fa fa-external-link"></i> View</a></td>
-                                                </tr>
-                                                <?php endforeach ?>
-                                                <?php if ($artikel->isEmpty()): ?>
-                                                    <tr class="warning">
-                                                        <td colspan="5">Belum ada artikel yang dipublikasikan</td>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Judul</th>
+                                                        <th>Type</th>
+                                                        <th>Waktu</th>
+                                                        <th>Link</th>
                                                     </tr>
-                                                <?php endif ?>
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($artikel as $article): ?>
+                                                    <tr>
+                                                        <td><?php echo $article->id ?></td>
+                                                        <td><?php echo $article->title ?></td>
+                                                        <td><?php echo $article->getTypeLabel() ?></td>
+                                                        <td><?php echo $article->date->format('d F Y H:i') ?></td>
+                                                        <td><a href="<?php echo $article->link ?>" class="btn btn-info btn-konsul" target="_blank"><i class="fa fa-external-link"></i> View</a></td>
+                                                    </tr>
+                                                    <?php endforeach ?>
+                                                    <?php if ($artikel->isEmpty()): ?>
+                                                        <tr class="warning">
+                                                            <td colspan="5">Belum ada artikel yang dipublikasikan</td>
+                                                        </tr>
+                                                    <?php endif ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                         <nav class="pull-right">
                                             <a href="<?php echo site_url('dashboard/my-article') ?>" class="btn btn-primary">View all your post</a>
                                         </nav>
@@ -297,35 +299,61 @@
                                             <div class="kelas-terbaru">
                                                 <h4><i class="fa fa-info"></i> Kelas Terbaru:</h4>
                                                 <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <p>Pengetahuan Dasar</p>
-                                                        </a>
-                                                        <button class="btn btn-start btn-md btn-block">Mulai Kelas</button>
-                                                    </li>                                                
-                                                    <li>
-                                                        <a href="#">
-                                                            <p>Dasar Dasar Kepemimpinan</p>
-                                                        </a>
-                                                        <button class="btn btn-start btn-md btn-block">Mulai Kelas</button>
-                                                    </li>
+
+                                                    <?php if ($courses->count()): ?>
+                                                        
+                                                        <?php foreach ($courses as $key => $course): ?>
+                                                        <li>
+                                                            <?php $coursecode = str_replace('.', '-', $course->code); ?>
+                                                            <a href="<?php echo site_url('kelas-online/course/join/'.$coursecode) ?>"><p><?php echo $course->name ?></p></a>
+                                                            <a href="<?php echo site_url('kelas-online/course/join/'.$coursecode) ?>" class="btn btn-start btn-md btn-block">Mulai Kelas</a>
+                                                        </li>
+                                                        <?php endforeach ?>
+                                                        
+                                                    <?php else: ?>
+                                                        <li><a href="javascript:;" title="">Tidak ada kelas terbaru</a></li>   
+                                                    
+                                                        
+                                                    
+                                                    <?php endif ?>
+                                                    
                                                 </ul>
                                             </div>
                                             <div class="kelas-content">
-                                                <h4>Kelas yang anda Ikuti:</h4>
+                                              <h4>Kelas yang anda Ikuti:</h4>
                                                 <ul>
-                                                    <li><a href="#">Pengetahuan Dasar</a></li>
-                                                    <li><a href="#">Dasar Dasar kepeminpinan</a></li>
+                                                    <?php if ($myclasscourse->count()): ?>
+                                                        
+                                                         <?php foreach ($myclasscourse as $key => $mycourse): ?>
+                                                            <li>
+                                                                <?php $mycoursecode = str_replace('.', '-', $mycourse->course->code); ?>
+                                                                <a href="<?php echo site_url('kelas-online/course/join/'.$mycoursecode) ?>"><?php echo $mycourse->course->name ?></a>
+                                                            </li>
+                                                        <?php endforeach ?>
+                                                       
+                                                    <?php else: ?>
+                                                        
+                                                        <li><a href="javascript:;" title="">Tidak ada kelas yang anda ikuti</a></li>   
+                                                    
+
+                                                    <?php endif ?>  
                                                 </ul>
                                             </div>
                                             <div class="latest-comment">
                                                 <h4><i class="fa fa-wechat"></i> Kelas yang ada comment:</h4>
                                                 <ul>
-                                                    <li><a href="">Pengetahuan dasar</a>
-                                                        <div class="comment">
-                                                            <p><b>comment: </b>test test test</p>
-                                                        </div>
-                                                    </li>
+                                                    <?php if($coursecomments->count()): ?>
+                                                        <?php foreach ($coursecomments as $comment): ?>
+                                                        <li><a href="javascript:;"><?php echo $comment->course->name ?></a>
+                                                            <div class="comment">
+                                                                <p><b>comment </b><br>
+                                                                <?php echo $comment->name." : ".$comment->content ?></p>
+                                                            </div>
+                                                        </li>
+                                                        <?php endforeach ?>
+                                                    <?php else: ?>
+                                                        <li><a href="javascript:;" title="">Tidak ada data</a></li>
+                                                    <?php endif ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -335,8 +363,47 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><br><br>
             <!-- End Recent Activity -->
+            <?php
+            $nama       = '';
+            foreach ($toptenarticles as $key => $value) {
+                
+                $nama .= $value->nama.",";
+            }
+
+            
+            $hasil = ''; 
+            foreach ($toptenarticlecount as $key => $value) {
+                
+                $hasil .= $value->occurences.",";
+            }
+
+
+
+            /* Start chart online class data */
+            $membername       = '';
+            foreach ($toptenactiveclass as $key => $value) {
+                $membername .= $value->user->full_name.", ";
+            }
+
+            $countmember = ''; 
+            foreach ($toptenactiveclasscount as $key => $value) {
+                
+                $countmember .= $value->counttotal.",";
+            }
+
+           /* End chart online class data */
+
+
+            ?>
+            
+            <input type="hidden" id="hasil-skor-artikel" value="<?php echo $hasil ?>">
+            <input type="hidden" id="hasil-nama-contributor" value="<?php echo $nama ?>">  
+            
+            <input type="hidden" id="hasil-skor-kelas-online" value="<?php echo $countmember ?>">
+            <input type="hidden" id="hasil-nama-kelas-online" value="<?php echo $membername ?>">  
+            
 
 <?php custom_stylesheet() ?>
 
@@ -374,7 +441,7 @@
 
 <script type="text/javascript">
     $('.description-text').on('keyup', function() {
-        limitText(this, 250)
+        limitText(this, 100)
     });
 
     function limitText(field, maxChar){
@@ -413,4 +480,5 @@ function checkInput(){
     document.getElementById('formMedia').submit();
 }
 </script>
+
 <?php endcustom_script() ?>

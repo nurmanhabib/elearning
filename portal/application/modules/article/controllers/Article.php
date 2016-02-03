@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class Article extends Guest {
+class Article extends CI_Controller {
 
     public function __construct()
     {

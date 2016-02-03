@@ -68,7 +68,7 @@
                                     <h3><a href="<?php echo $article->link ?>"><?php echo $article->title ?></a></h3>
                                 </div>
                                 <div class="articles-box-content">
-                                    <p><?php echo $article->getExcerpt(120) ?></p>
+                                    <p><?php echo $article->description ?></p>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                     <h3><a href="<?php echo $article->link ?>"><?php echo $article->title ?></a></h3>
                                 </div>
                                 <div class="articles-box-content">
-                                    <p><?php echo $article->getExcerpt(120) ?></p>
+                                    <p><?php echo $article->description ?></p>
                                 </div>
                             </div>
                         </div>

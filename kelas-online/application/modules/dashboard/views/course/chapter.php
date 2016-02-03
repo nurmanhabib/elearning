@@ -15,7 +15,7 @@
                     <div class="panel-heading" role="tab">
                         <h5 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $index }}" aria-expanded="true" aria-controls="collapseOne">
-                                <p class="font-weight-bold">Chapter {{ $index + 1 }} : {{ chapter.name }}</p>
+                                <p class="font-weight-bold"><span class="text-danger" title="Belum ada quiz" v-show="chapter.quiz.questions.length == 0 || chapter.quiz.time < 1"><i class="fa fa-exclamation-triangle"></i></span> Chapter {{ $index + 1 }} : {{ chapter.name }}</p>
                             </a>
                             <div class="btn-kelas pull-right">
                                 <button class="btn btn-info btn-kelas" data-toggle="modal" title="Edit" data-target=".add_chapter" v-on:click="editChapter($index)"><i class="fa fa-pencil"></i></button>
@@ -82,9 +82,9 @@
                                     </div>
                                     <div class="card-block">
                                         <div class="form-group row">
-                                            <label for="waktu" class="col-sm-2 form-control-label">Waktu</label>
+                                            <label for="waktu-{{ $index }}" class="col-sm-2 form-control-label">Waktu</label>
                                             <div class="input-group col-sm-4">
-                                                <input type="text" class="form-control" id="waktu" placeholder="Waktu" v-model="chapter.quiz.time">
+                                                <input type="text" class="form-control input-waktu" id="waktu-{{ $index }}" placeholder="Waktu" v-model="chapter.quiz.time">
                                                 <div class="input-group-addon">Menit</div>
                                             </div>
                                         </div>
@@ -129,12 +129,8 @@
             <!-- end:content -->
         </div>
         <div class="card-block">
-            <template v-if="course.chapters.length > 0">
-                <button type="submit" id="btn-submit" class="btn btn-primary btn-sm">Save</button>
-            </template>
-            <template v-else>
-                <button type="button" id="btn-submit-disable" class="btn btn-danger btn-sm" disabled>Anda belum menambahkan chapter</button>
-            </template>
+            <button type="button" id="btn-submit" class="btn btn-primary btn-sm" v-show="course.chapters.length > 0">Save</button>
+            <button type="button" id="btn-submit-disable" class="btn btn-danger btn-sm" disabled v-show="course.chapters.length == 0">Anda belum menambahkan chapter</button>
         </div>
     </div>
 
@@ -238,7 +234,12 @@
         })
 
         $('#btn-submit').on('click', function () {
-            $('#form-course-result').submit();
+            if (!window.app_kelas_online.checkAllChapterHasQuiz())
+                alert('Setiap chapter harus mempunyai quiz');
+            else if (!window.app_kelas_online.checkAllChapterHasTime())
+                alert('Setiap quiz minimal waktu adalah 1 menit');
+            else
+                $('#form-course-result').submit();
         })
     })
     </script>

@@ -13,7 +13,8 @@
         <div class="panel-body">
             <p class="label label-primary">Maximum Files 20MB </p>
             <input type="file" name="filemedia[]" id="filer_input_media" multiple="multiple">
-	    
+            <p style="text-align:left; font-size:12px;"><b>Supported file format</b>:<br> jpg | jpeg | png | gif | pdf | rar  | zip | xlsx | docx | doc | xls |<br>
+             ppt | pptx | 3gp | mp4 | mpeg | mpg | webm | ogg | mkv | flv | mp3 | txt</p>
 	        <button class="btn btn-danger" onclick="checkInput(); return false;" id="extrabutton">Start</button>
 	    </div>
 	    <?php echo form_close(); ?>

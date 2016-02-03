@@ -38,7 +38,7 @@
                     </div>
                     <div class="description-meta-button">
                         <a href="<?php echo $media->getLinkDownload() ?>" class="btn btn-sm btn-block btn-download"><i class="fa fa-download"></i> Download</a>
-                        <a href="#" class="btn btn-sm btn-block btn-preview" data-toggle="modal" data-target="#preview"><i class="fa fa-eye"></i> Preview</a>
+                        <button type="button" class="btn btn-sm btn-block btn-preview" data-toggle="modal" data-target="#preview"><i class="fa fa-eye"></i> Preview</button>
                     </div>
                 </div>
             </div>
@@ -122,8 +122,8 @@
         </div>
         <div class="modal-body">
             <div class="text-xs-center" id="modal-content">
-                <center>                            
-                    <?php echo $media->getPreview(700, 500) ?>
+                <center>                   
+                    <?php echo $media->getPreview(700, 500); ?>
                 </center>
             </div>
         </div>
@@ -137,6 +137,7 @@
 
 <?php custom_stylesheet() ?>
     <link rel="stylesheet" type="text/css" href="<?php echo asset('node_modules/awesomplete/awesomplete.css'); ?>">
+    
     <style type="text/css">
         div.awesomplete {
             display: block;
@@ -154,13 +155,15 @@
     <script type="text/javascript" src="<?php echo asset('javascript/elib.vue.js'); ?>"></script>
 
     <script type="text/javascript">
-        $('#preview').on('hidden.bs.modal', function (e) {
-            if ( $('#modal-content video').length ) {
-                $('#modal-content video').get(0).pause();
-            }
-            if ( $('#modal-content audio').length ) {
-                $('#modal-content audio').get(0).pause();
-            }
-        });
+            <?php if($media->file_type != 'video/x-flv') :?>
+                $('#preview').on('hidden.bs.modal', function (e) {
+                    if ( $('#modal-content video').length ) {
+                        $('#modal-content video').get(0).pause();
+                    }
+                    if ( $('#modal-content audio').length ) {
+                        $('#modal-content audio').get(0).pause();
+                    }
+                });
+            <?php endif; ?>
     </script>
 <?php endcustom_script() ?>

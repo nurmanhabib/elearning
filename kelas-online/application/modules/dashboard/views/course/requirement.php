@@ -106,6 +106,7 @@
                         .then(function (response) {
                             var course = response.data;
                             var already = false;
+                            var that = this;
 
                             $.each(this.course.requirements, function (key, value) {
                                 if (value.id === course.id)
@@ -115,7 +116,7 @@
                             if (already === false) {
                                 $.each(this.remove.requirements, function (index, requirement) {
                                     if (course.id === requirement.id)
-                                        this.remove.requirements.splice(index, 1);
+                                        that.remove.requirements.splice(index, 1);
                                 })
 
                                 this.course.requirements.push(course);

@@ -191,6 +191,7 @@ class CourseRepository
             $this->deleteChapter($chapter);
         });
 
+        $this->model->comments()->delete();
         $this->model->delete();
 
         return $this;
@@ -523,6 +524,7 @@ class CourseRepository
     public function submitQuizMember(Quiz $quiz, $answers = [])
     {
         $member = $this->getMemberSessionQuiz($quiz);
+        $member->answers()->delete();
 
         if ($member) {
             $answers = collect($answers)->map(function ($answer, $question_id) {
@@ -544,41 +546,22 @@ class CourseRepository
         return null;
     }
 
-    public function getScoreQuizAnswer($chapter_id)
+    public function getScoreQuizAnswer($chapter_id, $user = null)
     {
-        $quiz           = Quiz::where('chapter_id', $chapter_id)->get(); // get quiz id
+        if ($user) $this->setUser($user);
+
+        $chapter        = Chapter::find($chapter_id);
+        $quiz           = $chapter->quiz;
+        $member         = null;
         
-        $quiz_id = '';
-        foreach ($quiz as $key => $value) 
-        {
-            
-            if ($value->id != '') 
-            {
-                $quiz_id = $value->id;
+        foreach ($quiz->members as $data) {
+            if ($data->user_id == $this->user->id) {
+                $member = $data;
+                break;
             }
-
-        }
-        
-        $quizMember     = QuizMember::where('quiz_id', $quiz_id)->where('user_id', sentinel()->getUser()->id)->get();
-        // get quiz member id
-
-        $quiz_member_id = '';
-        foreach ($quizMember as $key => $value) 
-        {
-            
-            if ($value->id != '') 
-            {
-                $quiz_member_id = $value->id;
-            }
-
         }
 
-        $quizAnswer     = QuizAnswer::where('member_quiz_id',$quiz_member_id)->get();
-        // get quiz answer
-
-
-        return $quizAnswer;
-
+        return $member->getScore();
     }
 
     public function checkExamTimeout(Exam $exam, $attempt = 1)
@@ -782,15 +765,51 @@ class CourseRepository
         return $quizQuestion;
     }
 
-    public function learnerQuizAnswer($quizMemberId, $quesId)
+    public function learnerQuizMember($chapter_id, $user = null)
     {
-        $answer = QuizAnswer::where('member_quiz_id', $quizMemberId)
-                            ->where('question_id', $quesId)
-                            ->get();
+        if ($user) $this->setUser($user);
 
-        return $answer;
+        $chapter    = Chapter::find($chapter_id);
+        $quiz       = $chapter->quiz;
+        $member     = null;
+        
+        foreach ($quiz->members as $data) {
+            if ($data->user_id == $this->user->id) {
+                $member = $data;
+                break;
+            }
+        }
+
+        return $member;
     }
 
+    public function learnerQuizAnswer($chapter_id, $user = null)
+    {
+        return $this->learnerQuizMember($chapter_id, $user)->answers;
+    }
+
+    public function learnerExamMember($course_id, $user = null)
+    {
+        if ($user) $this->setUser($user);
+
+        $course     = Course::find($course_id);
+        $exam       = $course->exam;
+        $member     = null;
+        
+        foreach ($exam->members as $data) {
+            if ($data->user_id == $this->user->id) {
+                $member = $data;
+                break;
+            }
+        }
+
+        return $member;
+    }
+
+    public function learnerExamAnswer($chapter_id, $user = null)
+    {
+        return $this->learnerExamMember($chapter_id, $user)->answers;
+    }
     
     public function quizLearnerByChapterId($chapterid)
     {
@@ -812,6 +831,13 @@ class CourseRepository
                     ->where('course_id',$courseid)->get();
 
         return $exam;
+    }
+
+    public function courseById($course_id)
+    {
+       $course    = Course::find($course_id);
+
+       return $course;
     }
 
     public function approveReview($course, $review)
@@ -854,59 +880,5 @@ class CourseRepository
 
         return $this;
     }
-
-    public function examScore($courseid)
-    {
-        
-        $exam = $this->examLearnerByCourse($courseid);
-        
-        $correct    = 0;
-        $scores     = 0;
-
-        foreach ($exam as $key => $value) {
-            
-            $question = $this->questionList($value->id); //get questioin
-            $no=1;
-            foreach ($question as $key => $vq) {
-            
-                $learneranswer = $this->learnerAnswer($value->members[0]->id, $vq->id);
-                // Start Learner Answer Foreach 
-                foreach ($learneranswer as $key => $vAns) {
-
-                    if ($vAns->is_correct == '1') {
-                        $correct   = $correct + 1;
-                        $scores    = $scores + 10;
-                    } else {
-                        $scores    = $scores;
-                    }
-                                
-                                
-                                
-                }
-                // End Learner Answer Foreach
-
-
-
-                        
-            $no++;
-            }
-                    // End Question Foreach
-
-
-            $jumlahsoal = $no-1;
-            $soal = 100/$jumlahsoal;
-            $scores = $soal*$correct;
-
-
-        }
-
-
-        return $scores;
-        
-
-
-    }
-
-
 
 }

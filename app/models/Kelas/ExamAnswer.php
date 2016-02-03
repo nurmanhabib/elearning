@@ -12,4 +12,9 @@ class ExamAnswer extends Model
     {
         return $this->belongsTo(ExamMember::class, 'member_exam_id');
     }
+
+    public function question()
+    {
+    	return $this->belongsTo(ExamQuestion::class);
+    }
 }
