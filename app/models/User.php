@@ -38,6 +38,11 @@ class User extends SentinelUser
         return $this->profile->avatar ? home_url(getenv('PATH_AVATAR').'/'.trim($this->profile->avatar, '\\/')) : asset('images/default_avatar_male.jpg');
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users');
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
