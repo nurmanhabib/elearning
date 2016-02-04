@@ -8,6 +8,7 @@ use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
 class User extends SentinelUser
 {
     protected $connection = 'user';
+    protected $hidden = ['password'];
 
     public static function boot()
     {
