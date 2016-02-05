@@ -69,7 +69,7 @@ $config = array(
 	|
 	*/
 	// 'upload_dir' => '/public/images/portal/featured',
-	'upload_dir' => '/public/portal-content/',
+	'upload_dir' => '/public/portal-content/gallery/',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ $config = array(
 	|
 	*/
 	// 'current_path' => '../public/images/portal',
-	'current_path' => '../../../public/portal-content/',
+	'current_path' => '../../../public/portal-content/gallery/',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -92,7 +92,7 @@ $config = array(
 	|
 	*/
 	// 'thumbs_base_path' => '/../public/images/portal/thumbs',
-	'thumbs_base_path' => '../../../public/portal-content-thumbs/',
+	'thumbs_base_path' => '../../../public/portal-gallery-thumbs/',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -254,10 +254,10 @@ $config = array(
 	//Allowed extensions (lowercase insert)
 	//**********************
 	'ext_img'                                 => array( 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'svg' ), //Images
-	'ext_file'                                => array( 'doc', 'docx', 'rtf', 'pdf', 'xls', 'xlsx', 'txt', 'csv', 'html', 'xhtml', 'psd', 'sql', 'log', 'fla', 'xml', 'ade', 'adp', 'mdb', 'accdb', 'ppt', 'pptx', 'odt', 'ots', 'ott', 'odb', 'odg', 'otp', 'otg', 'odf', 'ods', 'odp', 'css', 'ai' ), //Files
-	'ext_video'                               => array( 'mov', 'mpeg', 'm4v', 'mp4', 'avi', 'mpg', 'wma', "flv", "webm" ), //Video
-	'ext_music'                               => array( 'mp3', 'm4a', 'ac3', 'aiff', 'mid', 'ogg', 'wav' ), //Audio
-	'ext_misc'                                => array( 'zip', 'rar', 'gz', 'tar', 'iso', 'dmg' ), //Archives
+	'ext_file'                                => array( /*'doc', 'docx', 'rtf', 'pdf', 'xls', 'xlsx', 'txt', 'csv', 'html', 'xhtml', 'psd', 'sql', 'log', 'fla', 'xml', 'ade', 'adp', 'mdb', 'accdb', 'ppt', 'pptx', 'odt', 'ots', 'ott', 'odb', 'odg', 'otp', 'otg', 'odf', 'ods', 'odp', 'css', 'ai'*/ ), //Files
+	'ext_video'                               => array( /*'mov', 'mpeg', 'm4v', 'mp4', 'avi', 'mpg', 'wma', "flv", "webm"*/ ), //Video
+	'ext_music'                               => array( /*'mp3', 'm4a', 'ac3', 'aiff', 'mid', 'ogg', 'wav'*/ ), //Audio
+	'ext_misc'                                => array( /*'zip', 'rar', 'gz', 'tar', 'iso', 'dmg'*/ ), //Archives
 
 	/******************
 	 * AVIARY config
@@ -279,7 +279,7 @@ $config = array(
 	// Hidden files and folders
 	//**********************
 	// set the names of any folders you want hidden (eg "hidden_folder1", "hidden_folder2" ) Remember all folders with these names will be hidden (you can set any exceptions in config.php files on folders)
-	'hidden_folders'                          => array( 'custom-avatar', 'gallery' ),
+	'hidden_folders'                          => array(),
 	// set the names of any files you want hidden. Remember these names will be hidden in all folders (eg "this_document.pdf", "that_image.jpg" )
 	'hidden_files'                            => array( 'config.php' ),
 
