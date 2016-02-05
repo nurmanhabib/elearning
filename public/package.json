@@ -19,6 +19,7 @@
     "jquery-chained": "git://github.com/tuupola/jquery_chained",
     "jquery-file-upload": "hayageek/jquery-upload-file",
     "jquery-form": "malsup/form",
+    "lightbox2": "^2.8.2",
     "moment": "git://github.com/moment/moment",
     "select2": "~4.0.0",
     "tether": "^1.1.1",
