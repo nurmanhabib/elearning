@@ -75,12 +75,12 @@ $config['menus'] = [
     ],
 
     // Media
-    [
-        'name'  => 'Gallery',
-        'icon'  => 'icon-picture',
-        'link'  => site_url('gallery'),
-        'roles' => ['su', 'adm'],
-    ],
+    // [
+    //     'name'  => 'Gallery',
+    //     'icon'  => 'icon-picture',
+    //     'link'  => site_url('gallery'),
+    //     'roles' => ['su', 'adm'],
+    // ],
 
     // Kelas Online
     [
