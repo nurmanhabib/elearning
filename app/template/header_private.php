@@ -53,7 +53,7 @@
             <section id="header-content-private">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                             <div class="header-top-left">
                                 <a class="navbar-brand hidden-lg-down" href="<?php echo dashboard_url() ?>">
                                     <img src="<?php echo config('site_logo', asset('images/logo.png')) ?>" alt="">
@@ -61,6 +61,11 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="advertis">
+                                <?php echo ads_placement('banner_top') ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                             <div class="header-top-right">
                                 <form action="<?php echo dashboard_url('search') ?>" method="GET">
                                     <div class="input-group">
