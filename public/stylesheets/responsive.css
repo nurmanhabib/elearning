@@ -1,8 +1,16 @@
 @import url("../../fonts/opensans/style.css");
+.input-group-btn {
+  position: relative;
+  font-size: 0px;
+  white-space: nowrap;
+  z-index: 91; }
+
 @media (min-width: 320px) and (max-width: 360px) {
   header #header-content {
     padding-top: 0;
     padding-bottom: 10px; }
+    header #header-content .advertis {
+      display: none; }
   header #header-content-private {
     padding-top: 0;
     padding-bottom: 10px; }
@@ -147,7 +155,9 @@
       height: 45px !important; }
     #header .header-top-right .form-control[placeholder] {
       font-size: 12px;
-      height: 35px !important; }
+      height: 35px !important;
+      position: absolute;
+      left: -8px; }
     #header .header-top-right .btn {
       height: 35px !important; }
       #header .header-top-right .btn i.fa {
@@ -362,6 +372,8 @@
   header #header-content {
     padding-top: 0;
     padding-bottom: 10px; }
+    header #header-content .advertis {
+      display: none; }
   header #header-content-private {
     padding-top: 0;
     padding-bottom: 10px; }
@@ -428,7 +440,9 @@
       height: 45px !important; }
     #header .header-top-right .form-control[placeholder] {
       font-size: 12px;
-      height: 35px !important; }
+      height: 35px !important;
+      position: absolute;
+      left: -10px; }
     #header .header-top-right .btn {
       height: 35px !important; }
       #header .header-top-right .btn i.fa {
@@ -783,6 +797,8 @@
   header #header-content {
     padding-top: 0;
     padding-bottom: 10px; }
+    header #header-content .advertis {
+      display: none; }
   header #header-content-private {
     padding-top: 0;
     padding-bottom: 10px; }

@@ -41,12 +41,22 @@ $padding-left: 5px;
        -o-transition: all $transition ease-in-out;
 }
 
+.input-group-btn {
+    position: relative;
+    font-size: 0px;
+    white-space: nowrap;
+    z-index: 91;
+}
+
 // BEGIN 320px
 @media (min-width: 320px) and (max-width: 360px) {
   header {
     #header-content {
       padding-top: 0;
       padding-bottom: $padding-bottom + 5px;
+      .advertis {
+        display: none;
+      }
     }
     #header-content-private {
       padding-top: 0;
@@ -242,6 +252,8 @@ $padding-left: 5px;
       .form-control[placeholder] {
         font-size: 12px;
         height: 35px !important;
+        position:absolute;
+        left: -8px;
       }
       .btn {
         height: 35px !important;
@@ -576,6 +588,9 @@ $padding-left: 5px;
     #header-content {
       padding-top: 0;
       padding-bottom: $padding-bottom + 5px;
+      .advertis {
+        display: none;
+      }
     }
     #header-content-private {
       padding-top: 0;
@@ -676,6 +691,8 @@ $padding-left: 5px;
       .form-control[placeholder] {
         font-size: 12px;
         height: 35px !important;
+        position: absolute;
+        left: -10px;
       }
       .btn {
         height: 35px !important;
@@ -1178,6 +1195,9 @@ $padding-left: 5px;
     #header-content {
       padding-top: 0;
       padding-bottom: $padding-bottom + 5px;
+      .advertis {
+        display: none;
+      }
     }
     #header-content-private {
       padding-top: 0;

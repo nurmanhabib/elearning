@@ -212,12 +212,21 @@ header {
       width: 220px; }
       header #header-content .navbar-brand img {
         width: 100%; }
+    header #header-content .advertis {
+      width: 450;
+      height: 70px;
+      border: 1px solid #dddddd;
+      margin-top: -10px;
+      margin-bottom: -10px; }
+      header #header-content .advertis img {
+        width: 100%;
+        height: 100%; }
     header #header-content .header-top-right {
       margin-top: 10px; }
       header #header-content .header-top-right .form-control {
         height: 30px;
         font-size: 10px;
-        width: 150px;
+        width: 190px;
         float: right;
         background-color: #dddddd;
         border: 1px solid #dddddd;
@@ -226,9 +235,12 @@ header {
         -moz-transition: all 0.3s ease-in-out;
         -o-transition: all 0.3s ease-in-out;
         border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px; }
+        border-bottom-left-radius: 8px;
+        position: absolute;
+        right: 30px;
+        z-index: 55; }
         header #header-content .header-top-right .form-control:focus {
-          width: 100%;
+          width: 350px;
           transition: all 0.3s ease-in-out;
           -webkit-transition: all 0.3s ease-in-out;
           -moz-transition: all 0.3s ease-in-out;
