@@ -67,7 +67,7 @@ class Dashboard extends Admin {
         $draftcount = $drafts->count();
 
         $courses        = Model\Kelas\Course::latest()->get();
-        $myclasscourse  = Model\Kelas\CourseMember::where('user_id', $user->id)->get();
+        $myclasscourse  = Model\Kelas\CourseMember::where('user_id', $user->id)->has('course')->get();
         $coursecomments = Model\Kelas\CourseComment::where('parent', '0')->has('course')->get();
         
         $toptenactiveclass  = Model\Kelas\CourseMember::groupBy('user_id')->orderBy('user_id','desc')->take(10)->get();
