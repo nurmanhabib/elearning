@@ -74,6 +74,14 @@ $config['menus'] = [
         'roles' => ['su', 'adm'],
     ],
 
+    // Media
+    [
+        'name'  => 'Gallery',
+        'icon'  => 'icon-picture',
+        'link'  => site_url('gallery'),
+        'roles' => ['su', 'adm'],
+    ],
+
     // Kelas Online
     [
         'name'  => 'Kelas Online',

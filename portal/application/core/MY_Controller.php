@@ -1,7 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class MY_Controller extends CI_Controller {}
+class MY_Controller extends CI_Controller {    
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->template->set('slider', false);
+        $this->template->set('railnews', false);
+        $this->template->set('sidebar', false);
+        $this->template->set('single', true);
+        $this->template->set('sidebarCategory', false);
+    }
+}
 
 class Admin extends CI_Controller
 {

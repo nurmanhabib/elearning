@@ -8,6 +8,7 @@ use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
 class User extends SentinelUser
 {
     protected $connection = 'user';
+    protected $hidden = ['password'];
 
     public static function boot()
     {
@@ -36,6 +37,11 @@ class User extends SentinelUser
     public function getAvatarAttribute()
     {
         return $this->profile->avatar ? home_url(getenv('PATH_AVATAR').'/'.trim($this->profile->avatar, '\\/')) : asset('images/default_avatar_male.jpg');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users');
     }
 
     public function profile()
