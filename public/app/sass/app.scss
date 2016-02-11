@@ -276,21 +276,35 @@ header {
 				width: 100%;
 			}
 		}
+		.advertis {
+			width: 450;
+			height: 70px;
+			border: 1px solid $grey-black;
+			margin-top: -10px;
+			margin-bottom: -10px;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
 		//edited
 		.header-top-right {
 			margin-top: $margin-top + 5px;
 			.form-control {
 				height: 30px;
 				font-size: 10px;
-				width: 150px;
+				width: 190px;
 				float: right;
 				background-color: $grey-black;
 				border: 1px solid $grey-black;
 				@include transition(0.3s);
 				border-top-left-radius: 8px;
 				border-bottom-left-radius: 8px;
+				position: absolute;
+				right: 30px;
+				z-index: 55;
 				&:focus {
-					width: 100%;
+					width: 350px;
 					@include transition(0.3s);
 				}
 			}
